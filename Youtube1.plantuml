@@ -1,0 +1,118 @@
+@startuml Youtube Class Diagram
+
+class UserAccount {
+  - String username
+  - String password
+  - String email
+  - String userID
+  - int followers
+  + create()
+  + delete()
+  + manage()
+  + get()
+  + List<Channel> channels
+  + List<Channel> subscriptions
+  + List<PlayList> playLists
+  + login(username, password)
+}
+
+class Channel {
+  - String channelID
+  - String channelName
+  - int subscribers
+  + create()
+  + delete()
+  + update()
+  + get()
+  + List<Video> videos
+  + List<PlayList> playLists
+}
+
+class Video {
+  - String videoID
+  - String title
+  - Data videoContent
+  - int views
+  - int likes
+  + upload()
+  + delete()
+  + edit()
+  + get()
+  + List<Comment> comments
+  + play()
+  + pause()
+}
+
+
+class Comment {
+  - String commentID
+  - UserAccount user
+  - String content
+  - int likes
+  + add()
+  + delete()
+  + get()
+}
+
+class Like {
+  - String likeID
+  - UserAccount user
+  + like()
+  + unlike()
+}
+
+
+class PlayList {
+  - String playListID
+  - String playListName
+  + List<Video> videos
+  + add(Video)
+  + delete(Video)
+  + update()
+  + get()
+  + play()
+}
+
+
+class YoutubeStudio {
+  + List<Channel> channels
+  + List<Video> videos
+  + setting()
+  + manage()
+}
+
+
+class Search {
+  - String searchRequest
+  - List<boolean> filter
+  + search(searchRequest, filter): List<Object>
+}
+
+
+
+UserAccount "1" *-- "0..*" Channel : owns
+UserAccount "1" *-- "0..*" PlayList : owns
+UserAccount "1" *-- "0..*" Video : owns
+UserAccount "1" *-- "1" YoutubeStudio : owns
+UserAccount "1" -- "0..*" Comment : writes
+UserAccount "1" -- "0..*" Like : press
+
+Channel "1" *-- "0..*" Video: has
+Channel "1" *-- "0..*" Playlist: has
+
+PlayList "1*" *-- "0..*" Video: has
+
+Video "1" --> "0..*" Comment : gets
+Video "1" --> "0..*" Like : gets
+
+
+
+YoutubeStudio "1" --> "*" Channel : manages
+YoutubeStudio "1" --> "*" Video : manages
+
+
+Search --> UserAccount 
+Search --> Channel 
+Search --> Video 
+
+@enduml

@@ -1,0 +1,52 @@
+@startuml Youtube Activity Diagram
+    [*] --> AccountCheck : Start
+    
+    
+        AccountCheck --> CreateAccount: No
+        AccountCheck --> Login: Yes
+        CreateAccount --> Login
+        Login --> MainPage
+        MainPage --> ContentCreatorPath
+        MainPage --> AudiencePath
+        
+        
+   
+    
+    state ContentCreatorPath {
+        ContentCreator --> YouTubeStudio
+        YouTubeStudio --> ManageChannels
+        YouTubeStudio --> ManagePlaylist
+        ManageChannels --> ManageVideo
+        ManagePlaylist --> ManageVideo
+    }
+    
+    state AudiencePath {
+        Audience --> UserAccountPage
+        UserAccountPage --> CheckPlaylist
+        UserAccountPage --> CheckSubscriptions
+        UserAccountPage --> SearchVideos
+    
+        CheckPlaylist --> WatchVideo
+        CheckSubscriptions --> WatchVideo
+        SearchVideos --> WatchVideo
+        WatchVideo --> AddComment
+        WatchVideo --> LikeVideo
+        WatchVideo --> AddToPlaylist
+    }
+    
+
+
+    state ManageVideo {
+    }
+    YouTubeStudio --> UserAccountPage
+    UserAccountPage --> YouTubeStudio
+    
+    ContentCreatorPath --> Success
+    AudiencePath --> Success
+    Success --> [*]
+
+
+    
+    
+
+@enduml
